@@ -10,5 +10,6 @@ class AspectRatio {
   private:
     AspectRatio(sfVector2f aspect_ratio, sfVector2f base_resolution) : aspect_ratio(aspect_ratio), base_resolution(base_resolution) {
       computed_resolution = sfVector2f(0.0, 0.0);
+      current_resolution = sfVector2f(0.0, 0.0);
     }
 };
