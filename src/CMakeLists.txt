@@ -9,13 +9,19 @@ set(CMAKE_CXX_FALGS "${CMAKE_CXX_FLAGS} -pthread")
 SET(BASEPATH "${CMAKE_SOURCE_DIR}")
 INCLUDE_DIRECTORIES("${BASEPATH}")
 
-
-
 set(headers
-  "aspect_ratio.h"
+  "game_of_life.h"
+  "computation_box.h"
+  "cell.h"
+  "ui.h"
+  "ui_cell.h"
+  "ui_constants.h"
 )
 
 set(cpp
+  "ui.cpp"
+  "game_of_life.cpp"
+  "computation_box.cpp"
   "main.cpp"
 )
 
@@ -26,3 +32,12 @@ target_link_libraries(${PROJECT_NAME} sfml-window)
 target_link_libraries(${PROJECT_NAME} sfml-system)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 23)
+
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL Clang OR CMAKE_CXX_COMPILER_ID STREQUAL GNU)
+  target_compile_options(${PROJECT_NAME} INTERFACE
+    -Wall -Wextra -Wpedantic -Wconversion -Werror=return-type
+  )
+endif()
+
+
