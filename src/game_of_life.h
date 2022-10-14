@@ -7,7 +7,7 @@
 class GameOfLife {
   private:
     std::list<ComputationBox> computation_boxes;
-    clock_t time_since_last_update;
+    clock_t last_update;
     unsigned int millis_between_updates;
     bool paused;
 
@@ -18,6 +18,7 @@ class GameOfLife {
   public:
     void update();
 
+    void activate_cells_in_list(const std::list<Cell> &cells);
     void set_paused(bool pause) { paused = pause; };
     void set_millis_between_updates(unsigned int millis) { millis_between_updates = millis; }; 
     const unsigned int get_millis_between_updates() const { return millis_between_updates; };

@@ -16,6 +16,7 @@ set(headers
   "ui.h"
   "ui_cell.h"
   "ui_constants.h"
+  "pause_play.h"
 )
 
 set(cpp
@@ -33,12 +34,9 @@ target_link_libraries(${PROJECT_NAME} sfml-system)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 23)
 
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(CMAKE_CXX_COMPILER_ID STREQUAL Clang OR CMAKE_CXX_COMPILER_ID STREQUAL GNU)
   target_compile_options(${PROJECT_NAME} INTERFACE
     -Wall -Wextra -Wpedantic -Wconversion -Werror=return-type
   )
 endif()
-
-
-message("compiler: ${CMAKE_CXX_COMPILER_ID}")

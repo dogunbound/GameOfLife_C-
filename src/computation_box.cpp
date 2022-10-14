@@ -6,7 +6,9 @@
 
 const unsigned int BOUNDS_OFFSET = 3;
 
-ComputationBox::ComputationBox(std::unordered_set<Cell> &cells): cells(cells) {}
+ComputationBox::ComputationBox(std::unordered_set<Cell> &cells): cells(cells), bounds(sf::Rect<unsigned int>(0, 0, 0, 0)) {
+  compute_bounds();
+}
 
 std::list<ComputationBox> ComputationBox::split() {
   std::list<ComputationBox> cboxes;
@@ -22,7 +24,7 @@ std::list<ComputationBox> ComputationBox::split() {
 
     for (auto &cbox : cboxes) {
       for (auto iter = cboxes.begin(); iter != cboxes.end(); iter++) {
-        if (cbox.intersects(*iter)) {
+        if (cbox.intersects(*iter) && &*iter != &cbox) {
           cbox.merge(*iter);
           cboxes.erase(iter);
           merge_performed = true;
@@ -64,7 +66,7 @@ void ComputationBox::compute_bounds() {
   }
 
   bounds = sf::Rect<unsigned int>(
-      top_left_pos.x,
+      top_left_pos.x, 
       top_left_pos.y,
       bottom_right_pos.x - top_left_pos.x,
       top_left_pos.y - bottom_right_pos.y
@@ -80,9 +82,7 @@ const sf::Rect<unsigned int> ComputationBox::get_bounds() const {
       );
 }
 
-const bool ComputationBox::intersects(const ComputationBox &computation_box) const {
-  return this->get_bounds().intersects(computation_box.get_bounds());
-}
+const bool ComputationBox::intersects(const ComputationBox &computation_box) const { return this->get_bounds().intersects(computation_box.get_bounds()); }
 
 const bool ComputationBox::is_empty() const {
   return cells.size() > 0;
@@ -125,6 +125,6 @@ bool ComputationBox::needs_to_split() {
   return split().size() > 1;
 }
 
-std::list<Cell> ComputationBox::get_cells() {
+const std::list<Cell> ComputationBox::get_cells() const {
   return std::list<Cell>(cells.begin(), cells.end());
 }

@@ -5,6 +5,7 @@
 
 #include "ui.h"
 #include "ui_constants.h"
+#include "game_of_life.h"
 
 template<typename T>
 sf::Vector2<T> rect_size(sf::Rect<T> rect) {
@@ -46,17 +47,29 @@ int main() {
         case sf::Event::Resized: 
           {
             const sf::Vector2u window_size(event.size.width, event.size.height);
+
+            if (window_size.x < 200 || window_size.y < 200) continue;
+
             window.setView(sf::View(sf::FloatRect(0.f, 0.f, window_size.x, window_size.y)));
 
             ui.event_handler(event);
           }
           break;
-        default:
+        case sf::Event::MouseButtonPressed:
+          {
+          auto active_cells = ui.get_cell_locations();
+
+          // TODO: Need to activate cells and pause if needed
+          }
+        case sf::Event::MouseMoved:
           ui.event_handler(event);
+          break;
+        default:
           break;
       }
     }
     ui.update();
+    // TODO: set cell locations need to occur here in case of unpaused updates
 
     window.clear(OFF_BLACK_COLOR);
     ui.render(window);

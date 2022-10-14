@@ -27,5 +27,5 @@ class ComputationBox {
 
     const sf::Rect<unsigned int> get_bounds() const;
 
-    std::list<Cell> get_cells(); 
+    const std::list<Cell> get_cells() const; 
 };
