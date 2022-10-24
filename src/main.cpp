@@ -37,6 +37,7 @@ int main() {
   window.setVerticalSyncEnabled(false);
   
   UI ui(font, sf::Vector2u(800, 600));
+  GameOfLife gol;
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -55,21 +56,21 @@ int main() {
             ui.event_handler(event);
           }
           break;
-        case sf::Event::MouseButtonPressed:
-          {
-          auto active_cells = ui.get_cell_locations();
-
-          // TODO: Need to activate cells and pause if needed
-          }
         case sf::Event::MouseMoved:
           ui.event_handler(event);
+          break;
+        case sf::Event::MouseButtonPressed:
+          ui.event_handler(event);
+          gol.set_paused(ui.is_paused());
+          gol.only_active_cells_in_area(ui.get_cell_locations(), ui.get_game_view_box());
           break;
         default:
           break;
       }
     }
+    gol.update();
+    ui.set_cell_locations(gol.get_cells_in_area(ui.get_game_view_box()));
     ui.update();
-    // TODO: set cell locations need to occur here in case of unpaused updates
 
     window.clear(OFF_BLACK_COLOR);
     ui.render(window);

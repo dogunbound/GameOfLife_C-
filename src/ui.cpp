@@ -126,15 +126,14 @@ void UI::update() {
   if (((float) clock() - (float) last_update) / (float) CLOCKS_PER_SEC * 1000.0f < MILLIS_BETWEEN_UPDATES)
     return;
 
-  last_update = clock();
-
   for (auto &vec_cells : cells) {
     for (auto &cell : vec_cells) {
       cell.update();
     }
   }
-
   pause_play_button.update();
+
+  last_update = clock();
 }
 
 void UI::render(sf::RenderWindow &rw) {
@@ -148,10 +147,17 @@ void UI::render(sf::RenderWindow &rw) {
 }
 
 void UI::set_cell_locations(const std::list<Cell> &cells) {
+  for (auto &vec_cells : this->cells) {
+    for (auto &cell : vec_cells) {
+      cell.set_active(false);
+    }
+  }
+
   for (const auto &cell : cells) {
     const sf::Vector2u ui_grid_coord(cell.x - game_view_box.left, cell.y - game_view_box.top);
 
-    if (ui_grid_coord.x < this->cells.size() && ui_grid_coord.y < this->cells[0].size())
+    if (ui_grid_coord.x < this->cells.size() && ui_grid_coord.y < this->cells[0].size()) {
       this->cells[ui_grid_coord.x][ui_grid_coord.y].set_active(true);
+    }
   }
 }

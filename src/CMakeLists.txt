@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.24.2)
-
 project(Conway_GOL VERSION 0.1)
 
 find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
@@ -11,7 +10,6 @@ INCLUDE_DIRECTORIES("${BASEPATH}")
 
 set(headers
   "game_of_life.h"
-  "computation_box.h"
   "cell.h"
   "ui.h"
   "ui_cell.h"
@@ -22,7 +20,6 @@ set(headers
 set(cpp
   "ui.cpp"
   "game_of_life.cpp"
-  "computation_box.cpp"
   "main.cpp"
 )
 

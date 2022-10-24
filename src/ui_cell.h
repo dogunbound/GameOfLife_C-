@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <iostream>
 
 #include "ui_constants.h"
@@ -78,12 +79,8 @@ class UICell {
               )
             );
       }
-      
-      if (is_active) {
-        cell_border.setFillColor(OFF_WHITE_COLOR);
-      } else {
-        cell_border.setFillColor(OFF_BLACK_COLOR);
-      }
+
+      cell_border.setFillColor(is_active ? OFF_WHITE_COLOR : OFF_BLACK_COLOR);
     }
 
     void render(sf::RenderWindow &rw) const {

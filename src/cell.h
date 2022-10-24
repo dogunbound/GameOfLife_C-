@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <sstream>
 #include <list>
 
 class Cell {
@@ -33,13 +31,9 @@ class Cell {
 namespace std {
   template <>
     struct hash<Cell> {
-      std::size_t operator()(const Cell& cell) const {
-        std::string str = std::to_string(cell.x + 10) + std::to_string(cell.y + 10);
-        std::stringstream sstream(str);
-
-        std::size_t seed;
-        sstream >> seed;
-        return seed;
+      std::uint64_t operator()(const Cell& cell) const {
+        std::uint64_t a = cell.x;
+        return a << 32 | cell.y;
       }
     };
 }
