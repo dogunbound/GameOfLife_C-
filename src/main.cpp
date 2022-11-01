@@ -40,7 +40,8 @@ int main() {
   GameOfLife gol;
   while (window.isOpen()) {
     sf::Event event;
-    while (window.pollEvent(event)) {
+    bool break_poll = false;
+    while (window.pollEvent(event) && !break_poll) {
       switch (event.type) {
         case sf::Event::Closed:
           window.close();
@@ -49,22 +50,29 @@ int main() {
           {
             const sf::Vector2u window_size(event.size.width, event.size.height);
 
-            if (window_size.x < 200 || window_size.y < 200) continue;
+            if (window_size.x < 200)
+              window.setSize(sf::Vector2u(200, window_size.y));
+            if (window_size.y < 200)
+              window.setSize(sf::Vector2u(window_size.x, 200));
 
             window.setView(sf::View(sf::FloatRect(0.f, 0.f, window_size.x, window_size.y)));
 
             ui.event_handler(event);
           }
+          break_poll = true;
           break;
         case sf::Event::MouseMoved:
-          ui.event_handler(event);
-          break;
         case sf::Event::MouseButtonPressed:
           ui.event_handler(event);
           gol.set_paused(ui.is_paused());
           gol.only_active_cells_in_area(ui.get_cell_locations(), ui.get_game_view_box());
           break;
+        case sf::Event::MouseWheelScrolled:
+          ui.event_handler(event);
+          break_poll = true;
+          break;
         default:
+          ui.event_handler(event);
           break;
       }
     }

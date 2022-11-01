@@ -17,20 +17,29 @@ class UI {
   private:
     sf::Vector2u window_size;
 
+    sf::Text coordinates;
+    void set_coord_position();
+    void set_coord_text();
+
     sf::Text title;
     void set_title_position();
 
     sf::Rect<unsigned int> game_view_box;
     std::vector<std::vector<UICell>> cells;
-    sf::Vector2u ui_grid_pos;
+    std::list<UICell*> hovered_cells;
+    std::list<UICell*> cells_to_render;
     unsigned int cell_margin;
     void update_cell_positions();
     
     void update_ui_positioning();
 
+    std::list<UICell*> cells_near_mouse(const sf::Vector2i &mouse_pos);
+
     PausePlayButton pause_play_button;
 
     clock_t last_update;
+
+    bool mouse_is_dragging;
   public:
     UI(const sf::Font &font, sf::Vector2u);
 

@@ -11,6 +11,7 @@
 
 class UICell {
   private:
+    const static int CELL_SIZE_TOO_SMALL = 15;
     bool is_active;
     bool is_hover;
     sf::RectangleShape cell_border;
@@ -22,7 +23,9 @@ class UICell {
     }
 
   public:
+    const bool is_border_displayed() { return CELL_SIZE_TOO_SMALL < get_regular_cell_size(); }
     const bool get_is_active() const { return is_active; }
+    const bool get_is_hover() const { return is_hover; }
     void set_active(bool is_active) { this->is_active = is_active; }
     void set_position(const sf::Vector2f &pos) { cell_border.setPosition(pos); }
     const sf::Vector2f get_cell_border_size() const { return cell_border.getSize(); }
@@ -33,7 +36,7 @@ class UICell {
     UICell(const sf::Vector2f &coord, const float &cell_size) : is_hover(false), is_active(false), cell_size(cell_size) {
       cell_border = sf::RectangleShape(sf::Vector2f(cell_size, cell_size));
       cell_border.setPosition(coord);
-      cell_border.setOutlineThickness(1);
+      cell_border.setOutlineThickness(cell_size > CELL_SIZE_TOO_SMALL ? 1 : 0);
       cell_border.setOutlineColor(OFF_WHITE_COLOR);
       cell_border.setFillColor(OFF_BLACK_COLOR);
     }
@@ -77,9 +80,8 @@ class UICell {
               cell_border.getPosition().x + diff_change,
               cell_border.getPosition().y + diff_change
               )
-            );
+            ); 
       }
-
       cell_border.setFillColor(is_active ? OFF_WHITE_COLOR : OFF_BLACK_COLOR);
     }
 

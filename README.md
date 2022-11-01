@@ -5,6 +5,6 @@ Prep to make the binary:
 Build the project after `cd`ing into `release`:
 `clear ; cmake ../src/ && make -j19 && ./Conway_GOL`
 
-# Release
+# Debug
 Build the project after `cd`ing into `debug`:
 `clear ; cmake -DCMAKE_BUILD_TYPE=Debug ../src/ && make -j19`
