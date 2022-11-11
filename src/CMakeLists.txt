@@ -15,6 +15,7 @@ set(headers
   "ui_cell.h"
   "ui_constants.h"
   "pause_play.h"
+  "helper.h"
 )
 
 set(cpp

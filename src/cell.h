@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/System/Vector2.hpp>
 #include <list>
 
 class Cell {
@@ -11,6 +12,8 @@ class Cell {
     }
 
     Cell(unsigned int x, unsigned int y): x(x), y(y) {}
+    Cell(const sf::Vector2u coord): x(coord.x), y(coord.y) {} 
+    Cell(const Cell &cell): x(cell.x), y(cell.y) {}
 
     const std::list<Cell> surrounding_cells() const {
       std::list<Cell> surrounding_cells;

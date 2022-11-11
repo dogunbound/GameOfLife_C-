@@ -35,9 +35,9 @@ int main() {
   const sf::Font font = load_font().value();
   sf::RenderWindow window(sf::VideoMode(800, 600), "Game Of Life");
   window.setVerticalSyncEnabled(false);
-  
+ 
   UI ui(font, sf::Vector2u(800, 600));
-  GameOfLife gol;
+  GameOfLife gol(ui.get_game_view_box());
   while (window.isOpen()) {
     sf::Event event;
     bool break_poll = false;
@@ -56,29 +56,31 @@ int main() {
               window.setSize(sf::Vector2u(window_size.x, 200));
 
             window.setView(sf::View(sf::FloatRect(0.f, 0.f, window_size.x, window_size.y)));
-
             ui.event_handler(event);
+            ui.set_cell_locations_in_game_view_box(gol.set_game_view_box(ui.get_game_view_box()));
+
+            break_poll = true;
           }
-          break_poll = true;
           break;
         case sf::Event::MouseMoved:
         case sf::Event::MouseButtonPressed:
+          gol.set_cell_locations_in_game_view_box(ui.event_handler(event));
+          gol.set_is_paused(ui.is_paused());
+          break;
+        case sf::Event::MouseButtonReleased:
           ui.event_handler(event);
-          gol.set_paused(ui.is_paused());
-          gol.only_active_cells_in_area(ui.get_cell_locations(), ui.get_game_view_box());
           break;
         case sf::Event::MouseWheelScrolled:
           ui.event_handler(event);
+          ui.set_cell_locations_in_game_view_box(gol.set_game_view_box(ui.get_game_view_box()));
           break_poll = true;
           break;
         default:
-          ui.event_handler(event);
           break;
       }
     }
-    gol.update();
-    ui.set_cell_locations(gol.get_cells_in_area(ui.get_game_view_box()));
     ui.update();
+    ui.set_cell_locations_in_game_view_box(gol.update());
 
     window.clear(OFF_BLACK_COLOR);
     ui.render(window);
